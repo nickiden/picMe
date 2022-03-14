@@ -6,6 +6,18 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var mongoose = require('mongoose');
+
+const {mongoURI} = require('./keys');
+require('./models/user');
+mongoose.connect(mongoURI);
+
+mongoose.connection.on('connected', ()=>{
+  console.log("Successfully connected to the database")
+});
+mongoose.connection.on('error', (Error)=>{
+  console.log("Error connecting to the database:", Error)
+});
 
 var app = express();
 
