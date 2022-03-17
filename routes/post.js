@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const auth = require("../middleware/auth");
-let Comment = require("../models/comment.model");
-let Post = require("../models/post.model");
-let User = require("../models/user.model");
+const auth = require("../auth");
+let Comment = require("../models/comments");
+let Post = require("../models/posts");
+let User = require("../models/user");
 
 // get all post
 router.get("/", auth, (req, res) => {

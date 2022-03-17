@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 // app.use("/users", usersRouter);
 
-const postsRouter = require("./routes/posts");
+const postsRouter = require("./routes/post");
 
 var mongoose = require('mongoose');
 
