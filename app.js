@@ -5,8 +5,15 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+
 var usersRouter = require('./routes/users');
+// app.use("/users", usersRouter);
+
+const postsRouter = require("./routes/posts");
+
 var mongoose = require('mongoose');
+
+
 
 const {mongoURI} = require('./keys');
 require('./models/user');
