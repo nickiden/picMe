@@ -4,12 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
 
-var usersRouter = require('./routes/users');
-// app.use("/users", usersRouter);
+const usersRouter = require('./routes/users');
+// app.use("/users", usersRouter);            // may have to uncomment this (just to get it working for now)
 
 const postsRouter = require("./routes/post");
+// app.use("/posts", postsRouter);            // may have to uncomment this (just to get it working for now)
+
+const commentRouter = require("./routes/comment");
+
 
 var mongoose = require('mongoose');
 
@@ -38,8 +42,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//middleware routing
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use("/posts", postsRouter);
+app.use("/comment", commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
