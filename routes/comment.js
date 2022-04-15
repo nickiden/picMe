@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const auth = require("../middleware/auth");
-let Comment = require("../models/comment.model");
+const auth = require("../auth");
+let Comment = require("../models/comments");
 
 router.route("/:id").get(auth, (req, res) => {
   Comment.findById(req.params.id, (err, comment) => {
