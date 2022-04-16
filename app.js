@@ -41,7 +41,7 @@ const upload = multer({
   storage: multerS3({
       s3,
       acl: 'public-read',
-      bucket: '',
+      bucket: 'picme-bucket2',
       metadata: (req, file, cb) => {
           cb(null, { fieldName: file.fieldname });
       },
