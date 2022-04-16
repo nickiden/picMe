@@ -17,11 +17,16 @@ const commentRouter = require("./routes/comment");
 
 var mongoose = require('mongoose');
 
-
+var app = express();
 
 const {mongoURI} = require('./keys');
 require('./models/user');
-mongoose.connect(mongoURI);
+mongoose.connect(mongoURI)
+  .then(client => {
+    const db = client.db('pics');
+    const collection = db.collection('images');
+    app.locals.imageCollection = collection;
+  });
 
 mongoose.connection.on('connected', ()=>{
   console.log("Successfully connected to the database")
@@ -30,7 +35,41 @@ mongoose.connection.on('error', (Error)=>{
   console.log("Error connecting to the database:", Error)
 });
 
-var app = express();
+const s3 = new aws.S3({ apiVersion: '2006-03-01' });
+
+const upload = multer({
+  storage: multerS3({
+      s3,
+      acl: 'public-read',
+      bucket: '',
+      metadata: (req, file, cb) => {
+          cb(null, { fieldName: file.fieldname });
+      },
+      key: (req, file, cb) => {
+          const ext = path.extname(file.originalname);
+          cb(null, `${uuid()}${ext}`);
+      }
+  })
+});
+
+app.post('/upload', upload.single('appImage'), (req, res) => {
+  const imageCollection = req.app.locals.imageCollection;
+  const uploadedFile = req.file.location;
+  imageCollection.insert({ filePath: uploadedFile })
+      .then(result => {
+          return res.json({ status: 'OK', ...result });
+      })
+});
+
+app.get('/images', (req, res) => {
+  const imageCollection = req.app.locals.imageCollection;
+  imageCollection.find({})
+      .toArray()
+      .then(images => {
+          const paths = images.map(({ filePath }) => ({ filePath}) );
+          res.json(paths);
+      });
+});expo
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
