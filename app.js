@@ -3,20 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
+
 
 const indexRouter = require('./routes/index');
-
 const usersRouter = require('./routes/users');
-// app.use("/users", usersRouter);            // may have to uncomment this (just to get it working for now)
-
 const postsRouter = require("./routes/post");
-// app.use("/posts", postsRouter);            // may have to uncomment this (just to get it working for now)
-
 const commentRouter = require("./routes/comment");
 
 
 var mongoose = require('mongoose');
-
 
 
 const {mongoURI} = require('./keys');
@@ -36,6 +32,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -44,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //middleware routing
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 app.use("/comment", commentRouter);
 
