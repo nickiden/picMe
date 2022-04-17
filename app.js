@@ -5,6 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const uuid = require('uuid').v4;
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -18,12 +23,13 @@ var app = express();
 
 const {mongoURI} = require('./keys');
 require('./models/user');
+
 mongoose.connect(mongoURI)
-  .then(client => {
-    const db = client.db('pics');
-    const collection = db.collection('images');
-    app.locals.imageCollection = collection;
-  });
+  // .then(client => {
+  //   //const db = client.db('pics');
+  //   //const collection = db.collection('images');
+  //   //app.locals.imageCollection = collection;
+  // });
 
 mongoose.connection.on('connected', ()=>{
   console.log("Successfully connected to the database")
@@ -52,7 +58,7 @@ const upload = multer({
 app.post('/upload', upload.single('appImage'), (req, res) => {
   const imageCollection = req.app.locals.imageCollection;
   const uploadedFile = req.file.location;
-  imageCollection.insert({ filePath: uploadedFile })
+  imageCollection.insertOne({ filePath: uploadedFile })
       .then(result => {
           return res.json({ status: 'OK', ...result });
       })
@@ -63,10 +69,10 @@ app.get('/images', (req, res) => {
   imageCollection.find({})
       .toArray()
       .then(images => {
-          const paths = images.map(({ filePath }) => ({ filePath}) );
+          const paths = images.map(({ filePath }) => ({ filePath }) );
           res.json(paths);
       });
-});expo
+}); 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
