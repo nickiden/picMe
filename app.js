@@ -1,3 +1,8 @@
+// FILE : app.js
+// DATE : March 18th, 2022
+// Comment  :
+//  Handle all routes and middleware for the server application
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
