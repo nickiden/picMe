@@ -8,10 +8,11 @@ const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-
+  console.log(token);
   if (token === null) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, "af7a02a65d9c7c90645399134760542a00188697c5f1f7995c3362921ba79580a82d9880a0153eb716a90b617a591bd24be0bbab3d78bd57d8a8f38005cf3ee7", (err, user) => {
+    
     if (err) return res.sendStatus(403);
     req.user = user;
     next();

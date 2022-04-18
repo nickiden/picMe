@@ -10,7 +10,7 @@ let User = require("../models/user");
 // Date     : March 17th,2022
 // Comment  : This function generates an access token to user for 1 hour. 
 function generateAccessToken(id, username) {
-  return jwt.sign({ id, username }, "e50eaf126a91513b06f9423b85ae0bfd14fa395504f248763727472abce0555316e49e43e076ab01f74d6174c1d73db36b05e139933e15f84fedff3a7738c1e4", {
+  return jwt.sign({ id, username }, "af7a02a65d9c7c90645399134760542a00188697c5f1f7995c3362921ba79580a82d9880a0153eb716a90b617a591bd24be0bbab3d78bd57d8a8f38005cf3ee7", {
     expiresIn: "3600s"
   });
 }
