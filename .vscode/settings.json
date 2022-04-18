@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/168a09c0-b73e-4ba2-bc8e-d988c9f8dbfe/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/pickMeServer",
+    "appService.deploySubpath": "."
+}

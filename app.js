@@ -1,3 +1,9 @@
+// FILE : app.js
+// DATE : March 18th, 2022
+// Comment  :
+//  Handle all routes and middleware for the server application
+
+// import statements for application 
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -5,6 +11,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
+// aws requre statements
 const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
@@ -92,6 +99,10 @@ app.use('/', indexRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 app.use("/comment", commentRouter);
+
+// extenstion for filesize limit
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ limit: "5mb" ,extended: false, parameterLimit: 5000 }));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
